@@ -1,23 +1,25 @@
 const express = require("express");
-const mysql = require("mysql2");
+const mysql = require("mysql");
 
 
 //database connection string with relevant values
 const db = mysql.createConnection({
 host:   'localhost',
 user:    'root',
-password: ''
+password: '',
 //establish connection to a specific database
+database: 'mydb'
+
 });
 
 //established database connection
-db.connect(function(err) {
+db.connect((err) => {
     if(err) throw err;
     console.log('Connected');
-    db.query("CREATE DATABASE mydb", function (err, result) {
-        if(err) throw err;
-        console.log("database created!")
-    });
+    // db.query("CREATE DATABASE mydb", function (err, result) {
+    //     if(err) throw err;
+    //     console.log("database created!")
+    // });
 });
 
 const app = express();
@@ -28,22 +30,23 @@ app.listen('3000', () => {
 
 //create database
 
-// app.get('/createDB', (req, res) => {
-//     let sql = 'CREATE DATABASE 10Oct2021';
-//     //execute the sql query
+app.get('/createDB', (req, res) => {
+    let sql = "CREATE DATABASE mydb";
+    //execute the sql query
 
-//     db.query(sql, (err,result) => {
-//         if(err){
-//             throw err;
-//         }
-//         console.log(result);
-//         res.send("10Oct2021 database created successfully")
-//     });
-// });
+    db.query(sql, (err,result) => {
+        if(err){
+            throw err;
+        }
+        console.log(result);
+        res.send("mydb database created successfully")
+    });
+});
 
 //create table
 
 app.get('/createTable', (req, res) => {
+    
     let sql = "CREATE TABLE postings(id INT auto_increment, title VARCHAR(50), message VARCHAR(100), PRIMARY KEY(id))";
 
     db.query(sql, (err, result) => {
@@ -99,14 +102,15 @@ db.query(sql, (err, result) => {
 
 //SELECT command to retrieve a specific row
 
-app.get('selectOne/:id',(req, res) =>{
-    let sql = `SELECT * FROM postings WHERE id= ${req.params.id}`;
+app.get('/selectOne/:id',(req, res) => {
+    let sql = `SELECT * FROM postings WHERE id = ${req.params.id}`;
     //execute query
     db.query(sql,(err, result) =>{
         if(err){
             throw err;
         }
         console.log(result)
+       
         res.send('specific row selected successfully')
     });
 });
@@ -114,7 +118,7 @@ app.get('selectOne/:id',(req, res) =>{
 //UPDATE command 
 app.get('/updateRow/:id', (req, res) =>{
     let newTitle = "Updated title-1";
-    let sql = `UPDATE postings SET 'title=${newTitle}' WHERE id = ${req.params.id}`;
+    let sql = `UPDATE postings SET title = '${newTitle}' WHERE id = ${req.params.id}`;
     //execute query
     db.query(sql, (err, result) => {
         if(err){
@@ -128,7 +132,7 @@ app.get('/updateRow/:id', (req, res) =>{
 
 //Delete command
 app.get('/deleteOne/:id', (req, res) => {
-let sql = `DELETE FROM postings WHERE id= ${req.params.id}`;
+let sql = `DELETE FROM postings WHERE id = ${req.params.id}`;
 //execute query
 db.query(sql, (err, result) =>{
     if(err){
