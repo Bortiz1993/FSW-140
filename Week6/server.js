@@ -1,5 +1,7 @@
 const express = require("express");
 const mysql = require("mysql");
+const  {v4: uuidv4 } = require('uuid');
+uuidv4()
 
 
 //database connection string with relevant values
@@ -8,7 +10,8 @@ host:   'localhost',
 user:    'root',
 password: '',
 //establish connection to a specific database
-database: 'mydb'
+database: 'avengers'
+
 
 });
 
@@ -16,7 +19,7 @@ database: 'mydb'
 db.connect((err) => {
     if(err) throw err;
     console.log('Connected');
-    // db.query("CREATE DATABASE mydb", function (err, result) {
+    // db.query("CREATE DATABASE avengers", function (err, result) {
     //     if(err) throw err;
     //     console.log("database created!")
     // });
@@ -24,45 +27,45 @@ db.connect((err) => {
 
 const app = express();
 
-app.listen('3000', () => {
+app.listen('9000', () => {
     console.log('local host is running successfully');
 });
 
 //create database
 
-app.get('/createDB', (req, res) => {
-    let sql = "CREATE DATABASE mydb";
-    //execute the sql query
+// app.get('/createDB', (req, res) => {
+//     let sql = "CREATE DATABASE avengers";
+//     //execute the sql query
 
-    db.query(sql, (err,result) => {
-        if(err){
-            throw err;
-        }
-        console.log(result);
-        res.send("mydb database created successfully")
-    });
-});
+//     db.query(sql, (err,result) => {
+//         if(err){
+//             throw err;
+//         }
+//         console.log(result);
+//         res.send("avengers database created successfully")
+//     });
+// });
 
 //create table
 
-app.get('/createTable', (req, res) => {
+// app.get('/createTable', (req, res) => {
     
-    let sql = "CREATE TABLE postings(id INT auto_increment, title VARCHAR(50), message VARCHAR(100), PRIMARY KEY(id))";
+//     let sql = "CREATE TABLE avengers(id INT auto_increment, name VARCHAR(50), message VARCHAR(100), PRIMARY KEY(id))";
 
-    db.query(sql, (err, result) => {
-        if(err) {
-            throw err;
-        }
+//     db.query(sql, (err, result) => {
+//         if(err) {
+//             throw err;
+//         }
 
-    console.log(result);
-    res.send("Postings table created successfully");
-    });
-});
+//     console.log(result);
+//     res.send("avengers table created successfully");
+//     });
+// });
 
 //execute INSERT query first row
 app.get('/insertRow1', (req, res) =>{
-    let post = {title: 'First row', message: 'first message row'}
-    let sql = "INSERT INTO postings SET ?";
+    let post = {name: req.body.name , URL: uuidv4()}
+    let sql = "INSERT INTO avengers SET ?";
     //Run command
     db.query(sql, post, (err, result) => {
         if(err){
@@ -73,37 +76,37 @@ app.get('/insertRow1', (req, res) =>{
     })
 });
 
-//insert row 2
-app.get('/insertRow2', (req, res) =>{
-    let post = {title: 'Second row', message: 'Second message row'}
-    let sql = "INSERT INTO postings SET ?";
-    //Run command
-    db.query(sql, post, (err, result) => {
-        if(err){
-            throw err;
-        }
-        console.log(result);
-        res.send('Second row inserted successfully')
-    })
-});
+// //insert row 2
+// app.get('/insertRow2', (req, res) =>{
+//     let post = {name: 'Second row', message: 'Second message row'}
+//     let sql = "INSERT INTO avengers SET ?";
+//     //Run command
+//     db.query(sql, post, (err, result) => {
+//         if(err){
+//             throw err;
+//         }
+//         console.log(result);
+//         res.send('Second row inserted successfully')
+//     })
+// });
 
 //SELECT command to retrieve all rows at once
-app.get('/selectAll', (req, res) => {
-    let sql = 'SELECT * FROM postings';
+app.get('/avengers', (req, res) => {
+    let sql = 'SELECT * FROM avengers';
     //execute query
 db.query(sql, (err, result) => {
     if(err){
         throw err;
     }
     console.log(result);
-    res.send('All rows selected successfully');
+    res.send(result);
 });
 });
 
 //SELECT command to retrieve a specific row
 
-app.get('/selectOne/:id',(req, res) => {
-    let sql = `SELECT * FROM postings WHERE id = ${req.params.id}`;
+app.get('/selectOne/:URL',(req, res) => {
+    let sql = `SELECT * FROM avengers WHERE URL= ${req.params.URL}`;
     //execute query
     db.query(sql,(err, result) =>{
         if(err){
@@ -116,9 +119,9 @@ app.get('/selectOne/:id',(req, res) => {
 });
 
 //UPDATE command 
-app.get('/updateRow/:id', (req, res) =>{
-    let newTitle = "Updated title-1";
-    let sql = `UPDATE postings SET title = '${newTitle}' WHERE id = ${req.params.id}`;
+app.get('/updateRow/:URL', (req, res) =>{
+    let newTitle = req.body.name
+    let sql = `UPDATE avengers SET name = '${newTitle}' WHERE URL = ${req.params.URL}`;
     //execute query
     db.query(sql, (err, result) => {
         if(err){
@@ -131,8 +134,8 @@ app.get('/updateRow/:id', (req, res) =>{
 });
 
 //Delete command
-app.get('/deleteOne/:id', (req, res) => {
-let sql = `DELETE FROM postings WHERE id = ${req.params.id}`;
+app.get('/deleteOne/:URL', (req, res) => {
+let sql = `DELETE FROM avengers WHERE URL = ${req.params.URL}`;
 //execute query
 db.query(sql, (err, result) =>{
     if(err){

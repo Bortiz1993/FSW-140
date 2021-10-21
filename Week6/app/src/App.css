@@ -1,0 +1,137 @@
+html{
+  background-image: linear-gradient(rgba(0, 0, 0, 0.5), rgba(5, 119, 128, 0.5)), url("./images/avengers_Endgame.jpg");
+    height: auto;
+    background-position: center;
+  
+
+     
+}
+
+h1, p {
+  margin: 5px;
+  font-family: Impact;
+  color:darkorange;
+  
+}
+
+h2{
+  
+  font-family: fantasy;
+  color: yellow;
+  display: inline;
+  border: 1px solid yellow;
+  background-color: black;
+  padding: 5px;
+  margin:10px;
+}
+h2:hover{
+  box-shadow: red 4px 4px 4px 8px;
+}
+
+p {
+  font-size: 25px;
+  font-family: Impact;
+}
+
+.Avengers-container {
+  display: flex;
+  flex-direction: row;
+  flex-wrap: wrap;
+  justify-content: space-evenly;
+  align-items: center;
+  margin: 0 32px;
+}
+
+.Avengers-component {
+  display: inline-flex;
+  flex-direction: column;
+  align-items: center;
+  background: none;
+  border: 8px double #fd6106;
+  padding: 10px;
+  margin: 5px;
+
+}
+
+.Avengers-component:hover{
+  box-shadow: rgb(235, 94, 12) 8px 4px 4px 8px ;
+}
+
+
+form{
+  display: flex;
+  flex-direction: column;
+  background: rgb(72, 72, 218);
+  border: 5px solid rgb(65, 31, 255);
+  padding: 10px;
+  margin: 5px;
+
+}
+form:hover{
+  box-shadow: hsl(268, 100%, 58%) 8px 4px 8px 8px;
+}
+
+input {
+  color: cyan;
+  font-family: Impact;
+  background: linear-gradient( 45deg , rgb(230, 32, 32), transparent);
+  padding: 10px;
+  font-size: 16px;
+  border: 1px solid black;
+  border-radius: 8px;
+  font-size: 16px;
+}
+
+button {
+  padding: 5px;
+  border-radius: 4px;
+  font-size: 15px;
+}
+
+.addAvenger-btn {
+  background-color: blueviolet;
+  color: white;
+  font-family: fantasy;
+}
+.edit-btn{
+  font-size: 16px;
+  background: mediumturquoise;
+  color: green;
+}
+.delete-btn {
+  font-family: fantasy;
+  background-color: red;
+  color:black
+}
+
+.user{
+  border: solid 3px red;
+}
+
+/*Mobile*/
+@media only screen and (min-width: 360px) and (max-width: 720px){
+
+  .Avengers-component {
+    display: inline-flex;
+    justify-content: space-evenly;
+    flex-direction: column;
+  }
+}
+
+/*Tablet*/
+@media only screen and (min-width: 721px) and (max-width: 1024px){
+  .Avengers-container{
+    justify-content: space-between;
+  }
+}
+
+/*Laptop*/
+@media only screen and (min-width: 1025px) and (max-width: 1440px){
+  html{
+    background-size: cover;
+  }
+  .Avengers-container{
+    flex-direction: column;
+    align-items: stretch;
+  }
+}
