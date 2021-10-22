@@ -93,16 +93,16 @@ button {
   color: white;
   font-family: fantasy;
 }
-.edit-btn{
+/* .edit-btn{
   font-size: 16px;
   background: mediumturquoise;
-  color: green;
-}
-.delete-btn {
+  color: green; */
+
+/* .delete-btn {
   font-family: fantasy;
   background-color: red;
   color:black
-}
+} */
 
 .user{
   border: solid 3px red;
